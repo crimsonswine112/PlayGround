@@ -1,18 +1,312 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#101b1b"><link rel="icon" href="data:,"><title>Ash & Oath — A Gloaming Vale Tale</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#101c1b">
+<meta name="description" content="Ash & Oath — a stylised 3D action-adventure in the Gloaming Vale, built for mobile.">
+<link rel="icon" href="data:,">
+<title>Ash & Oath — A Gloaming Vale Tale</title>
 <style>
-:root{color-scheme:dark;--gold:#e4c378;--ink:#17201e;--cream:#f6e8c9}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101817;font-family:Georgia,'Times New Roman',serif;color:var(--cream);touch-action:none}body{display:grid;place-items:center;background:radial-gradient(ellipse at 50% 40%,#29332d,#101615 70%)}#game{position:relative;width:min(100vw,1280px);height:min(100vh,800px);aspect-ratio:16/10;overflow:hidden;background:#536957;box-shadow:0 20px 90px #000b;border:1px solid #bca56644}canvas{width:100%;height:100%;display:block;image-rendering:auto}.hud{pointer-events:none;position:absolute;inset:0;padding:clamp(12px,2.2vw,28px);display:flex;flex-direction:column;justify-content:space-between;text-shadow:0 2px 4px #07100ddd}.topline{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.brand{font-size:clamp(10px,1vw,13px);letter-spacing:.25em;text-transform:uppercase;color:#ead08f}.quest{margin-top:7px;font-size:clamp(15px,2vw,24px);max-width:330px}.quest small{display:block;color:#dbd1b3;font-size:clamp(11px,1.2vw,14px);line-height:1.45;margin-top:5px}.stats{width:min(230px,36vw);background:#101816b8;border:1px solid #ead08f55;padding:10px 12px}.statlabel{display:flex;justify-content:space-between;font:10px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#e8dfc7;margin:5px 0}.meter{height:7px;background:#1a2220;border:1px solid #ffffff20}.fill{height:100%;transition:width .2s}.health{background:linear-gradient(90deg,#9e4039,#e8795a)}.will{background:linear-gradient(90deg,#3b8792,#85d4c8)}.moral{background:linear-gradient(90deg,#bc684f,#c7a252,#82b9a2)}.bottomline{display:flex;align-items:end;justify-content:space-between;gap:12px}.objective{font-size:clamp(12px,1.5vw,16px);background:#111b18c9;border-left:3px solid var(--gold);padding:10px 14px;max-width:410px;line-height:1.4}.hint{font:11px Arial,sans-serif;color:#eee2c3;background:#101816b8;padding:9px 12px;max-width:400px;text-align:right}.hint b{color:#f3d48b}.overlay{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(90deg,#0b1514df,#0b1514a8 50%,#0b1514c9);padding:22px;z-index:3}.panel{width:min(620px,96%);padding:clamp(22px,5vw,56px);background:linear-gradient(145deg,#29332cF5,#131d1bF7);border:1px solid #ddbd775e;box-shadow:0 15px 70px #0008;position:relative}.panel:before{content:'';position:absolute;inset:8px;border:1px solid #ddbd7722;pointer-events:none}.eyebrow{font:11px Arial,sans-serif;text-transform:uppercase;letter-spacing:.28em;color:#dbc180}.panel h1{font-size:clamp(38px,7vw,72px);line-height:.9;margin:17px 0 16px;font-weight:400;letter-spacing:-.04em}.panel h1 span{display:block;color:#d5b66e;font-style:italic}.panel p{font-size:clamp(14px,1.5vw,17px);line-height:1.65;color:#d7d4c6;max-width:480px}.button{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:13px 20px;background:#d6b66e;color:#17201e;border:0;font:700 12px Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:transform .15s,background .15s}.button:hover{background:#f0d48d;transform:translateY(-2px)}.button .arrow{font-size:18px}.choiceRow{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.choice{flex:1;min-width:170px;text-align:left;background:#1a2924;color:#f6e8c9;border:1px solid #d6b66e88;padding:14px;cursor:pointer;font:14px Georgia}.choice:hover{background:#293b32}.choice small{display:block;margin-top:7px;color:#c5c6b5;font:12px Arial;line-height:1.45}.hidden{display:none!important}.toast{position:absolute;left:50%;top:19%;transform:translate(-50%,-10px);opacity:0;background:#101816e8;border:1px solid #d9bc79;padding:10px 16px;font-size:14px;transition:.3s;pointer-events:none;z-index:2;white-space:nowrap}.toast.show{opacity:1;transform:translate(-50%,0)}#mobile{display:none;pointer-events:none;position:absolute;inset:auto 0 18px;justify-content:space-between;align-items:end;padding:0 18px}.pad,.acts{pointer-events:auto;display:grid;gap:5px}.pad{grid-template-columns:repeat(3,44px);grid-template-rows:repeat(2,42px)}.acts{grid-template-columns:repeat(2,52px)}.touchbtn{border:1px solid #e6d09088;background:#14201dcc;color:#f2d995;border-radius:50%;font:11px Arial;touch-action:none;user-select:none}.touchbtn:active{background:#b18e4e;color:#101816}@media(max-width:700px){#game{width:100vw;height:100dvh;aspect-ratio:auto}.hint{display:none}.objective{max-width:75%}#mobile{display:flex}.stats{padding:7px 8px}.quest{max-width:200px}.panel{padding:25px}.bottomline{padding-bottom:94px}}@media(orientation:portrait) and (max-width:700px){canvas{object-fit:cover}.quest{font-size:15px}}
+:root{
+  color-scheme:dark;
+  --gold:#e9c882;--gold-dim:#b79a5c;--cream:#f5e9cf;--ink:#0c1514;--teal:#8bd8c9;
+  --panel:rgba(9,18,17,.78);--line:rgba(233,200,130,.28);
+  --safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px);
+  --safe-l:env(safe-area-inset-left,0px);--safe-r:env(safe-area-inset-right,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0a1211;color:var(--cream);
+  font-family:Georgia,'Iowan Old Style','Palatino Linotype','Times New Roman',serif;
+  overscroll-behavior:none;touch-action:none;user-select:none;-webkit-user-select:none}
+#game{position:fixed;inset:0;overflow:hidden;background:#20342f}
+canvas#world{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:crosshair}
+#vignette{position:absolute;inset:0;pointer-events:none;z-index:2;
+  background:radial-gradient(ellipse at 50% 46%,transparent 40%,rgba(4,10,10,.32) 100%);
+  transition:background .25s}
+#vignette.hurt{background:radial-gradient(ellipse at 50% 48%,transparent 34%,rgba(148,32,24,.5) 100%),linear-gradient(rgba(130,26,20,.14),rgba(130,26,20,.14))}
+#vignette.dark{background:radial-gradient(ellipse at 50% 46%,transparent 25%,rgba(0,0,0,.86) 100%)}
+.hud{position:absolute;inset:0;z-index:4;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;
+  padding:calc(14px + var(--safe-t)) calc(16px + var(--safe-r)) calc(14px + var(--safe-b)) calc(16px + var(--safe-l));
+  text-shadow:0 2px 7px rgba(3,10,9,.7)}
+.hud-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.brand-block{min-width:0}
+.brand{font-size:clamp(10px,1.05vw,13px);letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:.92;
+  display:flex;align-items:center;gap:7px}
+.brand i{font-style:normal;font-size:.9em;color:#f2d9a0}
+.questline{margin-top:7px;font-size:clamp(17px,2.1vw,26px);line-height:1.15;color:#f8eed8;max-width:min(48vw,430px);
+  font-variant:small-caps;letter-spacing:.02em}
+.questsub{margin-top:4px;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:clamp(10px,1.1vw,12.5px);letter-spacing:.02em;line-height:1.4;color:#cfc3a7;max-width:min(50vw,420px);opacity:.85}
+.status{width:min(214px,34vw);flex:none;background:linear-gradient(180deg,rgba(10,20,18,.58),rgba(10,20,18,.3));
+  border:1px solid rgba(233,200,130,.22);border-radius:3px;padding:9px 11px 10px;}
+.srow{display:flex;justify-content:space-between;align-items:baseline;font-family:ui-sans-serif,system-ui,sans-serif;
+  font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:#e7dcc2;margin:4px 0 3px;opacity:.9}
+.srow b{font-weight:600;color:#f6ecd6;letter-spacing:.04em;font-size:10px}
+.bar{height:5px;border-radius:2px;background:rgba(240,225,190,.12);overflow:hidden;position:relative}
+.bar i{display:block;height:100%;width:100%;transition:width .18s ease-out;border-radius:2px}
+.hp{background:linear-gradient(90deg,#8d2f2c,#e07a5a 60%,#f3a67f);box-shadow:0 0 9px rgba(224,122,90,.4)}
+.will{background:linear-gradient(90deg,#2d6f82,#79c9c9 60%,#b3f2e6);box-shadow:0 0 9px rgba(121,201,201,.35)}
+.sparks{display:flex;gap:5px;margin-top:9px;align-items:center}
+.sparks span{width:100%;height:4px;border-radius:2px;background:rgba(240,225,190,.13);transition:background .3s,box-shadow .3s}
+.sparks span.on{background:linear-gradient(90deg,#e9b661,#ffe2a0);box-shadow:0 0 8px rgba(255,205,110,.6)}
+.compass{
+  position:absolute;top:calc(14px + var(--safe-t));left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:8px;padding:7px 13px;border-radius:99px;
+  background:rgba(8,17,16,.55);border:1px solid rgba(233,200,130,.18);
+  font-family:ui-sans-serif,system-ui,sans-serif;font-size:9px;letter-spacing:.17em;text-transform:uppercase;
+  color:#e9dfc6;transition:opacity .3s;white-space:nowrap
+}
+.compass.hide{opacity:0}
+.compass .arrow{display:inline-block;color:var(--gold);font-size:9px;line-height:1;transition:transform .08s linear;transform-origin:50% 50%}
+.compass .dist{color:#a99e85;letter-spacing:.08em}
+.hud-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:18px}
+.objective{font-family:ui-sans-serif,system-ui,sans-serif;font-size:clamp(10.5px,1.25vw,13px);line-height:1.5;
+  background:linear-gradient(100deg,rgba(9,18,17,.8),rgba(9,18,17,.35));border-left:2px solid var(--gold-dim);
+  padding:9px 14px 9px 12px;max-width:min(52vw,400px);color:#e7dcc4;border-radius:0 3px 3px 0}
+.objective b{color:var(--gold);font-weight:600;letter-spacing:.04em}
+.keys{font-family:ui-sans-serif,system-ui,sans-serif;font-size:10px;line-height:1.7;letter-spacing:.03em;
+  color:#cbbfa4;text-align:right;background:rgba(8,17,16,.5);padding:8px 12px;border-radius:3px;
+  border:1px solid rgba(233,200,130,.12);max-width:400px}
+.keys kbd{font-family:inherit;color:#f2e7cd;border:1px solid rgba(240,225,190,.3);border-bottom-width:2px;
+  border-radius:3px;padding:0 4px;margin:0 1px;font-size:9px}
+.prompt{
+  position:absolute;left:50%;bottom:calc(92px + var(--safe-b));transform:translate(-50%,14px);opacity:0;
+  display:flex;align-items:center;gap:9px;padding:9px 15px 9px 10px;border-radius:99px;
+  background:rgba(7,15,14,.82);border:1px solid rgba(233,200,130,.4);
+  font-family:ui-sans-serif,system-ui,sans-serif;font-size:11.5px;letter-spacing:.06em;color:#f3e8d0;
+  transition:opacity .22s,transform .22s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,.4)
+}
+.prompt.show{opacity:1;transform:translate(-50%,0)}
+.prompt kbd{display:grid;place-items:center;min-width:23px;height:23px;border-radius:50%;
+  background:rgba(233,200,130,.16);border:1px solid rgba(233,200,130,.55);color:#ffe4a8;
+  font-family:ui-sans-serif,system-ui,sans-serif;font-size:10px;font-weight:600}
+.toast{
+  position:absolute;left:50%;top:23%;transform:translate(-50%,-8px);opacity:0;pointer-events:none;
+  font-size:clamp(14px,1.9vw,20px);font-variant:small-caps;letter-spacing:.05em;color:#f7e7bd;
+  background:rgba(7,15,14,.66);border-top:1px solid rgba(233,200,130,.25);border-bottom:1px solid rgba(233,200,130,.25);
+  padding:9px 26px;text-align:center;transition:opacity .4s,transform .4s;max-width:88vw
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.sound-btn{position:absolute;top:calc(14px + var(--safe-t));right:calc(16px + var(--safe-r));z-index:6;
+  width:34px;height:34px;border-radius:50%;display:none;place-items:center;background:rgba(8,17,16,.55);
+  color:#e7dcc2;border:1px solid rgba(233,200,130,.24);font-size:14px;cursor:pointer;}
+/* touch controls */
+#touch{position:absolute;inset:0;z-index:5;pointer-events:none;display:none;transition:opacity .3s ease}
+#touch.on{display:block}
+body.modal-open .hud{opacity:0!important}
+body.modal-open #touch{opacity:0;pointer-events:none}
+body.modal-open .sound-btn{opacity:0;pointer-events:none}
+/* keep the objective clear of thumb controls on touch layouts */
+.touch-ui .hud-bottom{margin-bottom:158px;justify-content:center}
+.touch-ui .objective{max-width:min(88vw,420px);text-align:center;border-left:0;border-top:1px solid var(--gold-dim);
+  border-radius:3px;padding:7px 12px;background:linear-gradient(180deg,rgba(9,18,17,.92),rgba(9,18,17,.84))}
+.touch-ui .prompt{bottom:calc(214px + var(--safe-b))}
+.touch-ui .sound-btn{top:calc(116px + var(--safe-t))}
+.touch-ui .keys{display:none}
+#stick{position:absolute;left:calc(22px + var(--safe-l));bottom:calc(26px + var(--safe-b));width:124px;height:124px;
+  border-radius:50%;pointer-events:auto;touch-action:none;
+  background:radial-gradient(circle,rgba(8,17,16,.25),rgba(8,17,16,.44));
+  border:1px solid rgba(233,200,130,.24);box-shadow:inset 0 0 26px rgba(0,0,0,.35);}
+#stick::after{content:"";position:absolute;inset:32%;border-radius:50%;border:1px dashed rgba(233,200,130,.18)}
+#knob{position:absolute;left:50%;top:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;
+  background:radial-gradient(circle at 36% 30%,rgba(252,235,196,.34),rgba(233,200,130,.15) 60%,rgba(233,200,130,.05));
+  border:1px solid rgba(255,238,200,.55);box-shadow:0 3px 16px rgba(0,0,0,.35),inset 0 0 14px rgba(255,225,160,.18)}
+.actions{position:absolute;right:calc(18px + var(--safe-r));bottom:calc(22px + var(--safe-b));width:200px;height:184px;pointer-events:none}
+.act{position:absolute;pointer-events:auto;display:grid;place-items:center;border-radius:50%;
+  font-family:ui-sans-serif,system-ui,sans-serif;color:#f4e8cd;letter-spacing:.12em;text-transform:uppercase;
+  background:radial-gradient(circle at 35% 30%,rgba(34,56,51,.82),rgba(8,17,16,.72));
+  border:1px solid rgba(233,200,130,.3);box-shadow:0 5px 20px rgba(0,0,0,.35),inset 0 0 18px rgba(120,200,185,.08);
+  touch-action:none;transition:transform .08s,background .15s;font-size:8px}
+.act b{font-size:19px;line-height:1;font-weight:400;display:block;margin-bottom:2px;color:#f6dfaa}
+.act:active,.act.hit{transform:scale(.92);background:radial-gradient(circle at 40% 35%,rgba(104,176,158,.65),rgba(8,17,16,.8))}
+.act.strike{right:8px;bottom:44px;width:88px;height:88px;font-size:9px;border-color:rgba(240,205,140,.5)}
+.act.strike b{font-size:26px}
+.act.spell{right:104px;bottom:62px;width:62px;height:62px}
+.act.roll{right:64px;bottom:0;width:58px;height:58px}
+.act.talk{right:112px;bottom:0;width:52px;height:52px;font-size:7.5px}
+.act.talk.ready{border-color:rgba(255,224,156,.9);box-shadow:0 0 0 1px rgba(255,224,156,.4),0 0 22px rgba(255,205,110,.4)}
+/* overlays */
+.screen{position:absolute;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;
+  padding:calc(20px + var(--safe-t)) calc(20px + var(--safe-r)) calc(20px + var(--safe-b)) calc(20px + var(--safe-l));
+  background:linear-gradient(100deg,rgba(5,12,11,.9) 0%,rgba(5,12,11,.62) 46%,rgba(5,12,11,.14) 100%);
+  transition:opacity .55s ease;opacity:1}
+.screen.hidden{opacity:0;pointer-events:none}
+.screen.dim{background:rgba(4,10,9,.62);}
+#intro{
+  justify-content:flex-start;
+  background:linear-gradient(100deg,rgba(4,11,10,.86) 0%,rgba(4,11,10,.58) 38%,rgba(4,11,10,.16) 68%,rgba(4,11,10,.02) 100%);
+}
+#intro .panel{width:min(560px,92vw)}
+@media (min-width:900px){#intro .panel{margin-left:clamp(16px,5vw,96px)}}
+#intro .panel{box-shadow:0 40px 120px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,238,199,.1)}
+.panel{width:min(580px,94vw);padding:clamp(22px,4vw,44px);border:1px solid rgba(233,200,130,.26);
+  background:linear-gradient(160deg,rgba(15,28,25,.9),rgba(8,16,15,.72));
+  box-shadow:0 30px 100px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,238,199,.08);
+  position:relative;border-radius:2px;}
+.panel::before,.panel::after{content:"";position:absolute;width:26px;height:26px;border:1px solid rgba(233,200,130,.5)}
+.panel::before{left:7px;top:7px;border-right:0;border-bottom:0}
+.panel::after{right:7px;bottom:7px;border-left:0;border-top:0}
+.eyebrow{font-family:ui-sans-serif,system-ui,sans-serif;font-size:9.5px;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--gold-dim);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.eyebrow::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,rgba(233,200,130,.35),transparent)}
+h1{font-size:clamp(42px,7.2vw,72px);line-height:.95;margin:0 0 16px;font-weight:400;letter-spacing:.01em;
+  color:#f7ecd4;text-shadow:0 4px 34px rgba(0,0,0,.5)}
+h1 span{color:var(--gold);font-style:italic}
+.panel p{font-size:clamp(13px,1.55vw,15.5px);line-height:1.75;color:#d4c9b1;margin:0 0 16px;max-width:48ch}
+.panel p b{color:#f0e3c6;font-weight:600}
+.panel p em{color:#a9d8cd;font-style:normal}
+.button{appearance:none;cursor:pointer;display:inline-flex;align-items:center;gap:16px;margin-top:8px;
+  padding:14px 24px;border:1px solid rgba(233,200,130,.6);color:#16201c;font-family:ui-sans-serif,system-ui,sans-serif;
+  font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  background:linear-gradient(100deg,#e9c882,#f6e3b0 55%,#d9b169);border-radius:2px;
+  box-shadow:0 8px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.45);transition:transform .15s,filter .15s}
+.button:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.button:active{transform:translateY(0)}
+.button .arrow{font-size:16px;line-height:1}
+.button.ghost{background:transparent;color:#e9dcc0;border-color:rgba(233,200,130,.3);box-shadow:none}
+.button[disabled]{opacity:.45;pointer-events:none}
+.tagline{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{font-family:ui-sans-serif,system-ui,sans-serif;font-size:8px;letter-spacing:.18em;text-transform:uppercase;
+  color:#bdb095;border:1px solid rgba(233,200,130,.2);padding:5px 9px;border-radius:99px}
+.chip.on{color:#d9f4ec;border-color:rgba(139,216,201,.4)}
+.choiceRow{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin-top:18px}
+.choice{appearance:none;cursor:pointer;text-align:left;padding:16px;border:1px solid rgba(233,200,130,.25);
+  background:rgba(255,255,255,.025);color:#f2e6cd;font-family:Georgia,serif;font-size:clamp(15px,2vw,19px);
+  border-radius:2px;transition:border-color .2s,background .2s,transform .15s}
+.choice:hover{border-color:rgba(233,200,130,.65);background:rgba(233,200,130,.07);transform:translateY(-2px)}
+.choice small{display:block;font-family:ui-sans-serif,system-ui,sans-serif;font-size:10px;line-height:1.6;
+  letter-spacing:.02em;color:#bdb19a;margin-top:8px}
+.choice small em{color:#a9d8cd;font-style:normal}
+.loader{display:flex;align-items:center;gap:10px;margin-top:20px;font-family:ui-sans-serif,system-ui,sans-serif;
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#a99e88}
+.loader .dot{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:pulse 1.1s infinite}
+@keyframes pulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+.statsline{display:flex;gap:22px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(233,200,130,.16);
+  font-family:ui-sans-serif,system-ui,sans-serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#a99e88}
+.statsline b{display:block;color:#f0e4c8;font-size:17px;letter-spacing:.04em;margin-top:4px;font-weight:400;font-family:Georgia,serif}
+@media (max-width:760px){
+  .hud{padding:calc(10px + var(--safe-t)) calc(12px + var(--safe-r)) calc(10px + var(--safe-b)) calc(12px + var(--safe-l))}
+  .status{width:min(180px,40vw);padding:7px 9px 8px}
+  .questline{font-size:16px}
+  .questsub{display:none}
+  .keys{display:none}
+  .objective{max-width:64vw;font-size:10px;padding:7px 10px}
+  .compass{top:calc(76px + var(--safe-t));font-size:8px;padding:6px 10px}
+  .sound-btn{display:grid}
+  .prompt{bottom:calc(174px + var(--safe-b))}
+  .panel{padding:24px 22px;width:min(480px,92vw)}
+  .button{padding:12px 18px}
+  .choiceRow{grid-template-columns:1fr}
+  .toast{top:20%;font-size:14px}
+}
+@media (pointer:coarse){.keys{display:none}}
+@media (max-height:520px){
+  .questline{font-size:14px}.questsub{display:none}.objective{font-size:9px}
+  .panel{padding:18px 22px}h1{font-size:clamp(32px,6.5vw,48px);margin-bottom:10px}
+  .panel p{font-size:12px;line-height:1.6;margin-bottom:10px}.tagline{margin-top:12px}
+  .prompt{bottom:calc(150px + var(--safe-b))}
+  .touch-ui .hud-bottom{margin-bottom:140px}
+  .touch-ui .prompt{bottom:calc(210px + var(--safe-b))}
+  .touch-ui .objective{max-width:min(64vw,460px);font-size:9px;padding:5px 10px}
+}
 </style>
 </head>
-<body><main id="game"><canvas id="world" width="960" height="600" aria-label="Ash and Oath game world"></canvas>
-<div class="hud"><div class="topline"><div><div class="brand">✦ The Gloaming Vale</div><div class="quest" id="questTitle">A light in the mire<small id="questSub">The lantern-keeper has a request.</small></div></div><div class="stats"><div class="statlabel"><span>Vigor</span><span id="hpText">100</span></div><div class="meter"><div class="fill health" id="hpFill" style="width:100%"></div></div><div class="statlabel"><span>Will</span><span id="willText">100</span></div><div class="meter"><div class="fill will" id="willFill" style="width:100%"></div></div><div class="statlabel"><span>Reputation</span><span id="moralText">Kind</span></div><div class="meter"><div class="fill moral" id="moralFill" style="width:65%"></div></div></div></div><div class="bottomline"><div class="objective" id="objective">Find the lantern-keeper by the old bridge.</div><div class="hint"><b>WASD</b> move · <b>CLICK</b> strike · <b>Q</b> spell · <b>SPACE</b> roll · <b>E</b> speak</div></div></div>
-<div id="toast" class="toast"></div><div id="mobile"><div class="pad"><span></span><button class="touchbtn" data-key="w">▲</button><span></span><button class="touchbtn" data-key="a">◀</button><button class="touchbtn" data-key="s">▼</button><button class="touchbtn" data-key="d">▶</button></div><div class="acts"><button class="touchbtn" data-action="attack">STRIKE</button><button class="touchbtn" data-action="spell">SPELL</button><button class="touchbtn" data-action="dodge">ROLL</button><button class="touchbtn" data-action="talk">TALK</button></div></div>
-<div class="overlay" id="intro"><section class="panel"><div class="eyebrow">A short tale of courage & consequence</div><h1>Ash <span>& Oath</span></h1><p>In the Gloaming Vale, the old lights have gone dark. A keeper waits by the bridge, and something restless stirs in the reeds. Your choices will shape what dawn finds here.</p><p><b>Move</b> with WASD · <b>Strike</b> with click · <b>Cast</b> with Q · <b>Roll</b> with Space · <b>Talk / interact</b> with E.</p><button class="button" id="start"><span>Enter the vale</span><span class="arrow">→</span></button></section></div>
-<div class="overlay hidden" id="ending"><section class="panel"><div class="eyebrow" id="endingEyebrow">The Vale remembers</div><h1 id="endingTitle">A new dawn</h1><p id="endingText"></p><button class="button" id="restart"><span>Play again</span><span class="arrow">↻</span></button></section></div>
-<div class="overlay hidden" id="dialog"><section class="panel"><div class="eyebrow">Mara, lantern-keeper</div><h1 style="font-size:42px">The lights are <span>fading.</span></h1><p>“Five ember-wisps drift in the mire. Bring their sparks to the old shrine. And when the flame answers you... choose what kind of light this valley deserves.”</p><button class="button" id="accept"><span>I'll find them</span><span class="arrow">→</span></button></section></div>
-<div class="overlay hidden" id="choice"><section class="panel"><div class="eyebrow">The shrine stirs awake</div><h1 style="font-size:45px">What will you <span>kindle?</span></h1><p>The gathered embers could warm every hearth—or be bound to you alone.</p><div class="choiceRow"><button class="choice" data-choice="kind">Share the flame<small>Restore the vale. Its folk will remember your kindness.</small></button><button class="choice" data-choice="self">Claim the flame<small>Grow stronger. Let the valley learn to fear your name.</small></button></div></section></div>
+<body>
+<main id="game">
+  <canvas id="world" aria-label="Ash and Oath — a 3D valley in twilight"></canvas>
+  <div id="vignette"></div>
+
+  <div class="hud">
+    <div class="hud-top">
+      <div class="brand-block">
+        <div class="brand"><i>✦</i> Ash &amp; Oath</div>
+        <div class="questline" id="questTitle">A light in the mire</div>
+        <div class="questsub" id="questSub">Seek the lantern-keeper west of the ford.</div>
+      </div>
+      <div class="status" aria-label="Player status">
+        <div class="srow"><span>Vigor</span><b id="hpText">100</b></div>
+        <div class="bar"><i class="hp" id="hpFill"></i></div>
+        <div class="srow"><span>Will</span><b id="willText">100</b></div>
+        <div class="bar"><i class="will" id="willFill"></i></div>
+        <div class="sparks" id="sparks" aria-label="Ember sparks gathered">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+    <div class="compass hide" id="compass"><span class="arrow" id="compassArrow">▲</span><span id="compassLabel">Camp</span><span class="dist" id="compassDist">—</span></div>
+    <div class="hud-bottom">
+      <div class="objective" id="objective">Find the lantern-keeper by the old ford. <b>E</b> to speak.</div>
+      <div class="keys"><kbd>WASD</kbd> move &nbsp; <kbd>Drag</kbd> look &nbsp; <kbd>Click</kbd> strike<br><kbd>Q</kbd> spell &nbsp; <kbd>Space</kbd> roll &nbsp; <kbd>E</kbd> speak</div>
+    </div>
+    <div class="prompt" id="prompt"><kbd id="promptKey">E</kbd><span id="promptText">Speak with Mara</span></div>
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <button class="sound-btn" id="soundBtn" aria-label="Toggle sound">♪</button>
+
+  <div id="touch">
+    <div id="stick" aria-label="Movement joystick"><div id="knob"></div></div>
+    <div class="actions">
+      <button class="act strike" data-act="strike" aria-label="Strike"><b>⚔</b>Strike</button>
+      <button class="act spell" data-act="spell" aria-label="Spell"><b>✦</b>Spell</button>
+      <button class="act roll" data-act="roll" aria-label="Roll"><b>↻</b>Roll</button>
+      <button class="act talk" data-act="interact" aria-label="Speak or interact"><b>◈</b>Talk</button>
+    </div>
+  </div>
+
+  <div class="screen" id="intro">
+    <section class="panel">
+      <div class="eyebrow">A Gloaming Vale tale &nbsp;·&nbsp; 3D</div>
+      <h1>Ash <span>&amp; Oath</span></h1>
+      <p>Twilight has drowned the vale and the old lights are going out. Somewhere beyond the ford, a lantern-keeper waits — and five ember-wisps flicker in the reeds.</p>
+      <p><em>Follow the lanterns. Gather the sparks. Choose what kind of light this valley deserves.</em></p>
+      <button class="button" id="start" disabled><span>Enter the vale</span><span class="arrow">→</span></button>
+      <div class="tagline">
+        <span class="chip on" id="qualityChip">Carving the vale…</span>
+        <span class="chip">Touch &amp; keyboard</span>
+        <span class="chip">Headphones recommended</span>
+      </div>
+      <div class="loader" id="loader"><span class="dot"></span>Kindling the glen</div>
+    </section>
+  </div>
+
+  <div class="screen hidden dim" id="dialog">
+    <section class="panel">
+      <div class="eyebrow">Mara, lantern-keeper</div>
+      <h1>The lights are <span>fading.</span></h1>
+      <p>“Five ember-wisps drift in the mire. They were hearth-sparks once, before the water took them. Bring their fire to the old shrine across the ford…”</p>
+      <p>“And when the flame answers you — <em>choose what kind of light this valley deserves.</em>”</p>
+      <button class="button" id="accept"><span>I'll find them</span><span class="arrow">→</span></button>
+    </section>
+  </div>
+
+  <div class="screen hidden dim" id="choice">
+    <section class="panel">
+      <div class="eyebrow">The shrine stirs awake</div>
+      <h1 style="font-size:clamp(32px,5.5vw,54px)">What will you <span>kindle?</span></h1>
+      <p>The gathered embers turn in the brazier, waiting. They could warm every hearth in the vale — or be bound to your heart alone.</p>
+      <div class="choiceRow">
+        <button class="choice" data-choice="kind">Share the flame<small>Restore the vale. Its folk will remember your kindness. <em>Mara's lantern burns bright again.</em></small></button>
+        <button class="choice" data-choice="self">Claim the flame<small>Grow stronger. Let the valley learn to fear your name. <em>The dark will keep its distance.</em></small></button>
+      </div>
+    </section>
+  </div>
+
+  <div class="screen hidden dim" id="ending">
+    <section class="panel">
+      <div class="eyebrow" id="endingEyebrow">The vale remembers</div>
+      <h1 id="endingTitle">A new <span>dawn</span></h1>
+      <p id="endingText"></p>
+      <div class="statsline">
+        <div>Sparks gathered<b id="endSparks">5 / 5</b></div>
+        <div>Vale remembers<b id="endMoral">Kind</b></div>
+        <div>Time in the glen<b id="endTime">—</b></div>
+      </div>
+      <button class="button" id="restart" style="margin-top:22px"><span>Play again</span><span class="arrow">↻</span></button>
+    </section>
+  </div>
 </main>
-<script src="game.js"></script></body></html>
+<script type="module" src="game.js"></script>
+</body>
+</html>
